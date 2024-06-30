@@ -1,0 +1,232 @@
+menu "User Configuration"
+
+    orsource "$IDF_PATH/examples/common_components/env_caps/$IDF_TARGET/Kconfig.env_caps"
+    
+	menu "WiFi Configuration"
+
+	    config ESP_WIFI_SSID
+	        string "WiFi SSID"
+	        default "myssid"
+	        help
+	            SSID (network name) for the example to connect to.
+	
+	    config ESP_WIFI_PASSWORD
+	        string "WiFi Password"
+	        default "mypassword"
+	        help
+	            WiFi password (WPA or WPA2) for the example to use.
+	
+	    choice ESP_WIFI_SAE_MODE
+	        prompt "WPA3 SAE mode selection"
+	        default ESP_WPA3_SAE_PWE_BOTH
+	        help
+	            Select mode for SAE as Hunt and Peck, H2E or both.
+	        config ESP_WPA3_SAE_PWE_HUNT_AND_PECK
+	            bool "HUNT AND PECK"
+	        config ESP_WPA3_SAE_PWE_HASH_TO_ELEMENT
+	            bool "H2E"
+	        config ESP_WPA3_SAE_PWE_BOTH
+	            bool "BOTH"
+	    endchoice
+	
+	    config ESP_WIFI_PW_ID
+	        string "PASSWORD IDENTIFIER"
+	        depends on  ESP_WPA3_SAE_PWE_HASH_TO_ELEMENT|| ESP_WPA3_SAE_PWE_BOTH
+	        default ""
+	        help
+	            password identifier for SAE H2E
+	
+	    config ESP_MAXIMUM_RETRY
+	        int "Maximum retry"
+	        default 5
+	        help
+	            Set the Maximum retry to avoid station reconnecting to the AP unlimited when the AP is really inexistent.
+	
+	    choice ESP_WIFI_SCAN_AUTH_MODE_THRESHOLD
+	        prompt "WiFi Scan auth mode threshold"
+	        default ESP_WIFI_AUTH_WPA2_PSK
+	        help
+	            The weakest authmode to accept in the scan mode.
+	            This value defaults to ESP_WIFI_AUTH_WPA2_PSK incase password is present and ESP_WIFI_AUTH_OPEN is used.
+	            Please select ESP_WIFI_AUTH_WEP/ESP_WIFI_AUTH_WPA_PSK incase AP is operating in WEP/WPA mode.
+	
+	        config ESP_WIFI_AUTH_OPEN
+	            bool "OPEN"
+	        config ESP_WIFI_AUTH_WEP
+	            bool "WEP"
+	        config ESP_WIFI_AUTH_WPA_PSK
+	            bool "WPA PSK"
+	        config ESP_WIFI_AUTH_WPA2_PSK
+	            bool "WPA2 PSK"
+	        config ESP_WIFI_AUTH_WPA_WPA2_PSK
+	            bool "WPA/WPA2 PSK"
+	        config ESP_WIFI_AUTH_WPA3_PSK
+	            bool "WPA3 PSK"
+	        config ESP_WIFI_AUTH_WPA2_WPA3_PSK
+	            bool "WPA2/WPA3 PSK"
+	        config ESP_WIFI_AUTH_WAPI_PSK
+	            bool "WAPI PSK"
+	    endchoice
+	endmenu	
+	
+	menu "GNSS Configuration"
+	
+	    config EXAMPLE_GNSS_UART_PORT_NUM
+	        int "GNSS UART port number"
+	        range 0 2 if IDF_TARGET_ESP32 || IDF_TARGET_ESP32S3
+	        default 2 if IDF_TARGET_ESP32 || IDF_TARGET_ESP32S3
+	        range 0 1
+	        default 1
+	        help
+	            UART communication port number for the example.
+	            See UART documentation for available port numbers.
+	            
+	    config EXAMPLE_GNSS_UART_BAUD_RATE
+	        int "GNSS UART communication speed"
+	        range 1200 115200
+	        default 115200
+	        help
+	            UART communication speed for Modbus example.
+	    config NMEA_PARSER_UART_RXD
+	        int "UART RXD pin number"
+	        range ENV_GPIO_RANGE_MIN ENV_GPIO_IN_RANGE_MAX
+	        default 5
+	        help
+	            GPIO number for UART RX pin. See UART documentation for more information
+	            about available pin numbers for UART.
+	
+	    config NMEA_PARSER_RING_BUFFER_SIZE
+	        int "NMEA Parser Ring Buffer Size"
+	        range 0 2048
+	        default 1024
+	        help
+	            Size of the ring buffer used for UART Rx channel.
+	
+	    config NMEA_PARSER_TASK_STACK_SIZE
+	        int "NMEA Parser Task Stack Size"
+	        range 0 4096
+	        default 3072
+	        help
+	            Stack size of NMEA Parser task.
+	
+	    config NMEA_PARSER_TASK_PRIORITY
+	        int "NMEA Parser Task Priority"
+	        range 0 24
+	        default 2
+	        help
+	            Priority of NMEA Parser task.
+	
+	        comment "At least one statement must be selected"
+	    config NMEA_STATEMENT_GGA
+	        bool "GGA Statement"
+	        default y
+	        help
+	            Enabling this option will parse the following parameter from GGA statement:
+	
+	            - Latitude, Longitude, Altitude;
+	            - Number of satellites in use, fix status (no fix, GPS, DGPS), UTC time;
+	
+	    config NMEA_STATEMENT_GSA
+	        bool "GSA Statement"
+	        default y
+	        help
+	            Enabling this option will parse the following parameter from GSA statement:
+	
+	            - Position/Vertical/Horizontal dilution of precision;
+	            - Fix mode (no fix, 2D, 3D fix);
+	            - IDs of satellites in use;
+	
+	    config NMEA_STATEMENT_GSV
+	        bool "GSV Statement"
+	        default y
+	        help
+	            Enabling this option will parse the following parameter from GSV statement:
+	
+	            - Number of satellites in view;
+	            - Optional details of each satellite in view;
+	
+	    config NMEA_STATEMENT_RMC
+	        bool "RMC Statement"
+	        default y
+	        help
+	            Enabling this option will parse the following parameter from RMC statement:
+	
+	            - Validity of GPS signal;
+	            - Ground speed (knots) and course over ground (degrees);
+	            - Magnetic variation;
+	            - UTC date;
+	
+	    config NMEA_STATEMENT_GLL
+	        bool "GLL Statement"
+	        default y
+	        help
+	            Enabling this option will parse the following parameter from GLL statement:
+	
+	            - Latitude, Longitude;
+	            - UTC time;
+	
+	    config NMEA_STATEMENT_VTG
+	        bool "VTG Statement"
+	        default y
+	        help
+	            Enabling this option will parse the following parameter from VTG statement:
+	
+	            - Ground speed (knots, km/h) and course over ground (degrees);
+	            - Magnetic variation;
+	
+	endmenu
+	
+	menu "MQTT Configuration"
+	
+    config BROKER_URL
+        string "Broker URL"
+        default "mqtt://mqtt.eclipseprojects.io"
+        help
+            URL of the broker to connect to
+            
+	endmenu
+	
+	menu "MP3 UART"
+	    config EXAMPLE_UART_PORT_NUM
+	        int "MP3 UART port number"
+	        range 0 2 if IDF_TARGET_ESP32 || IDF_TARGET_ESP32S3
+	        default 2 if IDF_TARGET_ESP32 || IDF_TARGET_ESP32S3
+	        range 0 1
+	        default 1
+	        help
+	            UART communication port number for the example.
+	            See UART documentation for available port numbers.
+		
+	    config EXAMPLE_UART_BAUD_RATE
+	        int "MP3 UART communication speed"
+	        range 1200 115200
+	        default 115200
+	        help
+	            UART communication speed for Modbus example.
+	
+	    config EXAMPLE_UART_RXD
+	        int "MP3 UART RXD pin number"
+	        range ENV_GPIO_RANGE_MIN ENV_GPIO_IN_RANGE_MAX
+	        default 5
+	        help
+	            GPIO number for UART RX pin. See UART documentation for more information
+	            about available pin numbers for UART.
+	
+	    config EXAMPLE_UART_TXD
+	        int "MP3 UART TXD pin number"
+	        range ENV_GPIO_RANGE_MIN ENV_GPIO_OUT_RANGE_MAX
+	        default 4
+	        help
+	            GPIO number for UART TX pin. See UART documentation for more information
+	            about available pin numbers for UART.
+	endmenu
+	menu "LED BLINNK"
+	    config BLINK_GPIO
+	        int "Blink GPIO number"
+	        range ENV_GPIO_RANGE_MIN ENV_GPIO_OUT_RANGE_MAX
+	        default 2 
+	        help
+	            GPIO number (IOxx) to blink on and off or the RMT signal for the addressable LED.
+	            Some GPIOs are used for other purposes (flash connections, etc.) and cannot be used to blink.
+	endmenu	            
+endmenu
