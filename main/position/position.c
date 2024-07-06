@@ -6,6 +6,7 @@
  */
 #include <math.h>
 #include <string.h>
+#include <stdbool.h>
 #include "freertos/ringbuf.h"
 #include "esp_log.h"
 #include "config.h"
@@ -35,6 +36,7 @@ static int8_t mode = NGOAI_TUYEN;
 int16_t counter_sai_diem_dung = 0;
 static float kd = 0.000000, vd = 0.0000000;
 static int8_t diem_dung_ht = 0;
+static int8_t diem_dung_ht_truoc_do = 0;
 static int8_t diem_dung_td = 0;
 static uint8_t diem_dung_sai_ht = 0;
 static uint8_t diem_dung_sai_td = 0;
@@ -42,7 +44,7 @@ volatile int mode_weektime_before = 0;
 volatile int mode_weektime = 1;
 
 static double d_bus_ponits_Arr[SL_DD];
-
+static bool play_mp3 = true;
 double k_c = 5000;
 //
 
@@ -198,6 +200,7 @@ void tim_diem_dung() {
 
 void check_and_play() {
 	//Check neu xe cach diem dung ht < 30m --> phat nhac
+	static int8_t diem_dung_ht_temp;
 	if (d_bus_ponits_Arr[diem_dung_ht] < KHOANG_CACH_PHAT_NHAC_TOI_DA) {
 		if (diem_dung_ht == 0) {
 			//ignore
@@ -206,19 +209,21 @@ void check_and_play() {
 			ESP_LOGI(TAG, "Khoang cach toi diem hien tai: %f",
 					d_bus_ponits_Arr[diem_dung_ht]);
 			ESP_LOGI(TAG, "Phat nhac: Bai hat so: %d", diem_dung_ht);
-
 			char str_ht[10];
-			sprintf(str_ht, "%02d", diem_dung_ht);
-			if (DAY_TIME == WEEKEND) {
-				char message[20];
-				sprintf(message, "WK0%s", str_ht);
-				send_uart_nhac(message);
-				ESP_LOGW(TAG, "Phat nhac: %s", message);
-			} else {
-				char message[20];
-				sprintf(message, "WD0%s", str_ht);
-				send_uart_nhac(message);
-				ESP_LOGW(TAG, "Phat nhac: %s", message);
+			sprintf(str_ht, "%02d", (diem_dung_ht+1));
+			if (diem_dung_ht_temp != (diem_dung_ht+1)){
+				diem_dung_ht_temp = diem_dung_ht+1;
+				if (DAY_TIME == WEEKEND && play_mp3) {
+					char message[20];
+					sprintf(message, "WK0%s", str_ht);
+					send_uart_nhac(message);
+					ESP_LOGW(TAG, "Phat nhac: %s", message);
+				} else {
+					char message[20];
+					sprintf(message, "WD0%s", str_ht);
+					send_uart_nhac(message);
+					ESP_LOGW(TAG, "Phat nhac: %s", message);
+				}
 			}
 		}
 	}
@@ -249,6 +254,7 @@ void debug() {
 
 	ESP_LOGI(TAG, "'d' toi diem dung  td  :  %.8f",
 			d_bus_ponits_Arr[diem_dung_td]);
+	ESP_LOGW(TAG, "phat nhac: %d", play_mp3);
 }
 void bus_router(void *pvParameters) {
 	gps_t *gps_item = NULL;

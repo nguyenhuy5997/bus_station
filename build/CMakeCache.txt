@@ -563,7 +563,7 @@ C_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS:INTERNAL=1
 //Details about finding Git
 FIND_PACKAGE_MESSAGE_DETAILS_Git:INTERNAL=[C:/Program Files/Git/cmd/git.exe][v2.40.0.windows.1()]
 //Details about finding Python3
-FIND_PACKAGE_MESSAGE_DETAILS_Python3:INTERNAL=[C:/Python311/python.exe][cfound components: Interpreter ][v3.11.5()]
+FIND_PACKAGE_MESSAGE_DETAILS_Python3:INTERNAL=[E:/Espressif/python_env/idf5.1_py3.11_env/Scripts/python.exe][cfound components: Interpreter ][v3.11.2()]
 //ADVANCED property for variable: GIT_EXECUTABLE
 GIT_EXECUTABLE-ADVANCED:INTERNAL=1
 //Have include stddef.h
@@ -578,9 +578,8 @@ HAVE_TIME_T_SIZE:INTERNAL=TRUE
 TIME_T_SIZE:INTERNAL=8
 //CMAKE_INSTALL_PREFIX during last run
 _GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=C:/Program Files (x86)/main
-//Path to a program.
-_Python3_EXECUTABLE:INTERNAL=C:/Python311/python.exe
+_Python3_EXECUTABLE:INTERNAL=E:/Espressif/python_env/idf5.1_py3.11_env/Scripts/python.exe
 //Python3 Properties
-_Python3_INTERPRETER_PROPERTIES:INTERNAL=Python;3;11;5;32;;;C:\Python311\Lib;C:\Python311\Lib;C:\Python311\Lib\site-packages;C:\Python311\Lib\site-packages
-_Python3_INTERPRETER_SIGNATURE:INTERNAL=02e5225325590f4b4610808d5670da7a
+_Python3_INTERPRETER_PROPERTIES:INTERNAL=Python;3;11;2;32;;;E:\Espressif\tools\idf-python\3.11.2\Lib;E:\Espressif\tools\idf-python\3.11.2\Lib;E:\Espressif\python_env\idf5.1_py3.11_env\Lib\site-packages;E:\Espressif\python_env\idf5.1_py3.11_env\Lib\site-packages
+_Python3_INTERPRETER_SIGNATURE:INTERNAL=3c415261befd208942c8511e6c62018a
 
