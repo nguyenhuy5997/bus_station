@@ -10,7 +10,7 @@
 
 
 #define SL_DD_WD 26U
-#define SL_DD_WK 27U
+#define SL_DD_WK 25U
 #define SL_DD ((SL_DD_WD > SL_DD_WK) ? SL_DD_WD : SL_DD_WK)
 #define SL_VT 1180
 #define KC_MIN_GAN_DD 30 // gan diem dung 100m --> lay luon la diem dung hien tai
@@ -23,7 +23,7 @@ float vd_dd_Arr[SL_DD];
 
 //WEEKEND
 float kd_dd_Arr_wk[SL_DD] = {
-  21.02362849	,//Diem dau tien trong mang nay khong nam trong danh sach diem dung, no sat voi lo trinh va gan diem dau tien trong lotrinh
+//  21.02362849	,//Diem dau tien trong mang nay khong nam trong danh sach diem dung, no sat voi lo trinh va gan diem dau tien trong lotrinh
   21.02394896	,
   21.02496667	,
   21.02696667	,
@@ -49,10 +49,10 @@ float kd_dd_Arr_wk[SL_DD] = {
   21.02591667	,
   21.02451667	,
   21.0228	,
-  21.0228173	,//Diem cuoi cung trong mang nay khong nam trong danh sach diem dung, no sat voi lo trinh va gan diem cuoi trong lotrinh
+//  21.0228173	,//Diem cuoi cung trong mang nay khong nam trong danh sach diem dung, no sat voi lo trinh va gan diem cuoi trong lotrinh
 };
 float vd_dd_Arr_wk[SL_DD] = {
-  105.8572358	,//Diem dau tien trong mang nay khong nam trong danh sach diem dung, no sat voi lo trinh va gan diem dau tien trong lotrinh
+//  105.8572358	,//Diem dau tien trong mang nay khong nam trong danh sach diem dung, no sat voi lo trinh va gan diem dau tien trong lotrinh
   105.8572412	,
   105.85675	,
   105.8561333	,
@@ -78,7 +78,7 @@ float vd_dd_Arr_wk[SL_DD] = {
   105.8468333	,
   105.8464833	,
   105.8564833	,
-  105.8574718	,//Diem cuoi cung trong mang nay khong nam trong danh sach diem dung, no sat voi lo trinh va gan diem cuoi trong lotrinh
+//  105.8574718	,//Diem cuoi cung trong mang nay khong nam trong danh sach diem dung, no sat voi lo trinh va gan diem cuoi trong lotrinh
 };
 
 ///WEEK DAY

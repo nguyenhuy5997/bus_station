@@ -44,7 +44,6 @@ volatile int mode_weektime_before = 0;
 volatile int mode_weektime = 1;
 
 static double d_bus_ponits_Arr[SL_DD];
-static bool play_mp3 = true;
 double k_c = 5000;
 //
 
@@ -200,9 +199,9 @@ void tim_diem_dung() {
 
 void check_and_play() {
 	//Check neu xe cach diem dung ht < 30m --> phat nhac
-	static int8_t diem_dung_ht_temp;
+	static int8_t diem_dung_ht_temp = 0;
 	if (d_bus_ponits_Arr[diem_dung_ht] < KHOANG_CACH_PHAT_NHAC_TOI_DA) {
-		if (diem_dung_ht == 0) {
+		if (diem_dung_ht == 0 && 0) {
 			//ignore
 			// show_inforln("001nhungkphat");
 		} else {
@@ -213,7 +212,7 @@ void check_and_play() {
 			sprintf(str_ht, "%02d", (diem_dung_ht+1));
 			if (diem_dung_ht_temp != (diem_dung_ht+1)){
 				diem_dung_ht_temp = diem_dung_ht+1;
-				if (DAY_TIME == WEEKEND && play_mp3) {
+				if (DAY_TIME == WEEKEND) {
 					char message[20];
 					sprintf(message, "WK0%s", str_ht);
 					send_uart_nhac(message);
@@ -254,7 +253,6 @@ void debug() {
 
 	ESP_LOGI(TAG, "'d' toi diem dung  td  :  %.8f",
 			d_bus_ponits_Arr[diem_dung_td]);
-	ESP_LOGW(TAG, "phat nhac: %d", play_mp3);
 }
 void bus_router(void *pvParameters) {
 	gps_t *gps_item = NULL;
